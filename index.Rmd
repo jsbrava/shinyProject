@@ -1,0 +1,81 @@
+---
+title       : mpg prediction 
+subtitle    : 
+author      : Jim Smith
+job         : student
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+
+## mpg prediction application using Shiny
+
+### decided on using motor trends car data
+Do some exploratory analysis
+
+```{r}
+data(mtcars)
+head(mtcars)
+```
+
+--- .class #id
+
+## linear regresssion 
+
+### predicted mpg based on weight (wt) and cylinders (cyl)
+
+```{r, echo=FALSE, eval=TRUE}
+library(shiny)
+data(mtcars)
+```
+```{r echo=FALSE, eval=FALSE}  
+attach(mtcars)
+```
+```{r, echo=FALSE}
+par(mfrow=c(1,2))
+plot(wt, mpg, main="Car mpg vs weight ", 
+                     xlab="Car Weight, 1000s of pounds ", ylab="Miles Per Gallon ", pch=19)
+fit = lm(mpg~wt)  # for weight
+abline(fit , col="red") # regression line (y~x)
+
+plot(cyl, mpg, main="Car mpg vs cylinders", 
+     xlab="cylinders ", ylab="Miles Per Gallon ", pch=19)
+fit = lm(mpg~cyl)
+abline(fit , col="red") # regression line (y~x) 
+```
+
+--- .class #id
+
+## create ui.R and server.R
+The ui is created within the shinyUI function. I used the pageWithSidebar.
+```{r eval=FALSE}
+shinyUI(pageWithSidebar(
+    headerPanel("Shiny project, predict mpg"),
+    sidebarPanel(),
+    mainPanel(   )
+    ))
+
+```
+The server code is a function with input and output inside a shinyServer function
+```{r eval=FALSE}
+shinyServer(
+    function(input, output){
+    }
+)
+```
+
+--- .class #id
+
+## final output
+### after ui.r and server.r are complete, shinyapps.deployApp('file')
+
+```{r fig.width=10, fig.height=5, echo=FALSE}
+library(png)
+library(grid)
+img <- readPNG('assets/img/ShinyOutput.PNG')
+ grid.raster(img)
+
